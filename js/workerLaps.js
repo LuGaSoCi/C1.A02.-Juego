@@ -8,3 +8,4 @@ self.onmessage = function(e) {
         self.postMessage({ player, laps: laps[player] });
     }
 };
+ 

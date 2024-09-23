@@ -8,7 +8,7 @@ export class UIManager {
         }
         this.createUI();
     }
-
+ 
     createUI() {
         this.distanceText1 = this.scene.add.text(16, 16, 'Metros Jugador 1: 0', { fontSize: '32px', fill: '#fff' });
         this.distanceText2 = this.scene.add.text(16, 56, 'Metros Jugador 2: 0', { fontSize: '32px', fill: '#fff' });
@@ -23,10 +23,11 @@ export class UIManager {
         this.lapsText1.setText('Vueltas Jugador 1: ' + players[0].laps);
         this.lapsText2.setText('Vueltas Jugador 2: ' + players[1].laps);                          
     }
-    updateTimer(time) {
-        this.timer = time
-        this.timeText.setText(`Tiempo: ${time} segundos`); 
+    updateTimer() {
+        this.timer++;
+        this.timeText.setText('Tiempo: ' + this.timer + 's');
     }
+
     startTimer() {
         this.timerWorker.postMessage('start'); // Envía un mensaje para iniciar el cronómetro
     }

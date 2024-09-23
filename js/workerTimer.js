@@ -19,3 +19,4 @@ self.addEventListener('message', (event) => {
         console.error('Error en el Worker:', error);
     }
 });
+ 

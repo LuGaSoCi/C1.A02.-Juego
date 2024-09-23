@@ -15,7 +15,7 @@ const config = {
     },
     scene: {
         preload,
-        create,
+        create, 
         update
     }
 }; 
@@ -25,11 +25,14 @@ let players = [];
 let uiManager;
 let finishLine;
 let canMove = false; // Nueva variable para controlar el movimiento
+let timerEvent;
 
 // Web Workers
 const distanceWorker = new Worker('./workerDistance.js');
 const lapsWorker = new Worker('./workerLaps.js');
 const timerWorker = new Worker('./workerTimer.js');
+
+
 function preload() {
     this.load.image('car', './assets/car3.png');
     this.load.image('track', './assets/track.png');
@@ -98,6 +101,12 @@ function create() {
             console.log('Start button clicked, sending start message to timerWorker');
             uiManager.startTimer();
             startButton.destroy(); // Destruir el botón después de hacer clic
+
+            timerEvent = this.time.addEvent({
+                delay: 1000,
+                callback: () => uiManager.updateTimer(),
+                loop: true
+            });
         });
         
 
@@ -127,7 +136,6 @@ function create() {
         distanceWorker.postMessage({ player: player.playerName, distance: player.distance });
         lapsWorker.postMessage({ player: player.playerName }); 
     });
-     
     
     const line = this.add.graphics();
     line.lineStyle(5, 0xff0000, 1);
@@ -144,7 +152,7 @@ function update() {
 
             distanceWorker.postMessage({ player: player.playerName, distance: player.distance });
 
-            if (player.crossedFinishLine() && player.laps < 1) {
+            if (player.crossedFinishLine() && player.laps < 10) {
                 lapsWorker.postMessage({ player: player.playerName });
             }
             if (player.laps >= 10) {
@@ -162,6 +170,11 @@ function endGame(message) {
         player.sprite.setVelocity(0);
         player.sprite.setAngularVelocity(0);
     });
+
+    // Detener el temporizador
+    if (timerEvent) {
+        timerEvent.remove(); // Elimina el evento del temporizador
+    }
     
     timerWorker.terminate();  
     distanceWorker.terminate();  

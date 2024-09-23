@@ -11,7 +11,7 @@ export class Player {
     }
 
     static setFinishLine(line) {
-        Player.finishLine = line;
+        Player.finishLine = line; 
     }
 
     setupControls(playerName) { 
