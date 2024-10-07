@@ -4,7 +4,7 @@ let intervalId;
 self.addEventListener('message', (event) => {
     try {
         if (event.data === 'start') {
-            console.log('Timer started'); // Log en la consola del Worker
+            console.log('Timer started');
             startTime = Date.now();
             intervalId = setInterval(() => {
                 const elapsedTime = Math.floor((Date.now() - startTime) / 1000);

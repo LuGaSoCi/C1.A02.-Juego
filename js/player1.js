@@ -65,10 +65,8 @@ export class Player {
             this.previousPosition.x < finishLineX && this.sprite.x >= finishLineX) {
             
             this.laps++;
-            // Indica que se cruzó la línea de meta para ver las vueltas
             return true; 
         }
-        // No se cruzó la línea de meta para ver las vueltas
         return false; 
     }    
 }

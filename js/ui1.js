@@ -29,11 +29,11 @@ export class UIManager {
     }
 
     startTimer() {
-        this.timerWorker.postMessage('start'); // Envía un mensaje para iniciar el cronómetro
+        this.timerWorker.postMessage('start');
     }
 
     stopTimer() {
-        this.timerWorker.postMessage('stop'); // Envía un mensaje para detener el cronómetro
+        this.timerWorker.postMessage('stop');
     }
     showVictoryMessage(message) {
         const victoryText = this.scene.add.text(this.scene.cameras.main.centerX, this.scene.cameras.main.centerY, message, { fontSize: '64px', fill: '#fff' }).setOrigin(0.5);

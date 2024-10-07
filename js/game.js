@@ -24,10 +24,9 @@ const game = new Phaser.Game(config);
 let players = [];
 let uiManager;
 let finishLine;
-let canMove = false; // Nueva variable para controlar el movimiento
+let canMove = false;
 let timerEvent;
 
-// Web Workers
 const distanceWorker = new Worker('./workerDistance.js');
 const lapsWorker = new Worker('./workerLaps.js');
 const timerWorker = new Worker('./workerTimer.js');
@@ -36,7 +35,7 @@ const timerWorker = new Worker('./workerTimer.js');
 function preload() {
     this.load.image('car', './assets/car3.png');
     this.load.image('track', './assets/track.png');
-    this.load.image('startButton', './assets/startButton.png'); // Cargar la imagen del botón
+    this.load.image('startButton', './assets/startButton.png');
 }
 
 function create() {
@@ -92,15 +91,14 @@ function create() {
         this.physics.add.collider(player.sprite, innerBarrier);
     });
 
-    // Crear el botón de inicio como imagen
     const startButton = this.add.image(game.config.width / 2, game.config.height / 2, 'startButton')
         .setOrigin(0.5)
         .setInteractive();
         startButton.on('pointerdown', () => {
-            canMove = true; // Permitir movimiento
+            canMove = true;
             console.log('Start button clicked, sending start message to timerWorker');
             uiManager.startTimer();
-            startButton.destroy(); // Destruir el botón después de hacer clic
+            startButton.destroy();
 
             timerEvent = this.time.addEvent({
                 delay: 1000,
@@ -146,7 +144,7 @@ function create() {
 }
 
 function update() {
-    if (canMove) { // Solo permitir movimiento si el juego ha comenzado
+    if (canMove) {
         players.forEach(player => {
             player.update();
 
@@ -171,9 +169,8 @@ function endGame(message) {
         player.sprite.setAngularVelocity(0);
     });
 
-    // Detener el temporizador
     if (timerEvent) {
-        timerEvent.remove(); // Elimina el evento del temporizador
+        timerEvent.remove();
     }
     
     timerWorker.terminate();  
@@ -187,6 +184,6 @@ function endGame(message) {
 
     restartButton.setInteractive();    
     restartButton.on('pointerdown', () => {
-        this.scene.restart();  // Reinicia la escena completa
+        this.scene.restart();
     });
 }
